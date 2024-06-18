@@ -1,9 +1,12 @@
+
+const Convenience=99;
 let obj;
 onload();
 
 function onload(){
     loadBagItemsobjects();
     displayBagItems();
+    displaybagsummary();
 }
 function loadBagItemsobjects(){
    obj= bagarray.map(itemid=>{
@@ -29,6 +32,45 @@ localStorage.setItem('bagarray', JSON.stringify(bagarray));
 loadBagItemsobjects();
 displaycount();
 displayBagItems();
+displaybagsummary();
+}
+
+function displaybagsummary(){
+    let summarycontainer = document.querySelector(".bag-summary");
+    let total_items=obj.length;
+    let totalMRP=0;
+    let discount=0;
+    obj.forEach(item=>{
+        totalMRP+=item.original_price;
+        discount+=item.original_price-item.current_price;
+    })
+    let total=totalMRP-discount + Convenience;
+    summarycontainer.innerHTML=`
+    <div class="bag-details-container">
+    <div class="price-header">PRICE DETAILS (${total_items} Items) </div>
+    <div class="price-item">
+      <span class="price-item-tag">Total MRP</span>
+      <span class="price-item-value">${totalMRP}</span>
+    </div>
+    <div class="price-item">
+      <span class="price-item-tag">Discount on MRP</span>
+      <span class="price-item-value priceDetail-base-discount">${discount}</span>
+    </div>
+    <div class="price-item">
+      <span class="price-item-tag">Convenience Fee</span>
+      <span class="price-item-value">Rs 99</span>
+    </div>
+    <hr>
+    <div class="price-footer">
+      <span class="price-item-tag">Total Amount</span>
+      <span class="price-item-value">${total}</span>
+    </div>
+  </div>
+  <button class="btn-place-order">
+    <div class="css-xjhrni">PLACE ORDER</div>
+  </button>
+</div>
+    `
 }
 function generateitemhtml(item){
 return    `<div class="bag-item-container">

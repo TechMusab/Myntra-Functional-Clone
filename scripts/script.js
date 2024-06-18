@@ -30,6 +30,7 @@ let container = document.querySelector(".items-container");
 if(!container){
     return;
 }
+
 let innerhtml = "";
 items.forEach((item) => {
   innerhtml += ` 
